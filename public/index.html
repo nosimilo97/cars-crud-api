@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="alpine.js"></script>
+    <title>widget of mostPopularModel</title>
+    <style>
+      .container {
+        margin-top: 3em;
+        border: 1px solid;
+        border-radius: 1em;
+        padding: 1.5em;
+        
+      }
+
+      h1 {
+        text-align: center;
+      }
+    </style>
+</head>
+<body>
+  <div class="container">
+  <h1>Most popular Car Model</h1>
+    <div x-data="MostpopularModel">
+        <form @submit.prevent="createCar">
+            <input x-model="newCar.color" placeholder="Car color" required>
+            <input x-model="newCar.make" placeholder="Car Make" required>
+            <input x-model="newCar.model" placeholder="Car Model" required>
+            <input x-model="newCar. reg_number" placeholder="Car reg_number" required>
+            <button type="submit">Add Car</button>
+          </form>
+      
+          <ul>
+            <template x-for="car in cars" :key="car.reg_number">
+              <li x-text="`${car.color}: ${car.make} ${car.model} (${car. reg_number})`"></li>
+            </template>
+          </ul>
+
+          <button @click="getMostPopularModel">Get Most Popular Model</button>
+    <br>
+    <div x-show="mostPopularModel.model">
+      Most Popular Model: <span x-text="mostPopularModel.model"></span> 
+    </div>
+    <br>
+    <button @click="deleteCar(car.reg_number)">Delete</button>
+    </div>
+  </div>
+</body>
+</html>
