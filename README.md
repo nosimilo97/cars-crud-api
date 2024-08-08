@@ -59,7 +59,7 @@ function mostPopularModel(cars) {
 
 ## CREATE MOCHA TEST FOR THE FUNCTION YOU CHOSE
 
-[![Build Status](https://img.shields.io/github/workflow/status/your-username/your-repo/CI)](https://github.com/your-username/your-repo/actions)
+[![Build Status](https://img.shields.io/github/workflow/status/nosimilo97/cars-crud-api/tree/main)](https://github.com/nosimilo97/cars-crud-api/tree/main)
 
 
   
