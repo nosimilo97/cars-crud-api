@@ -27,6 +27,19 @@ DELETE http://localhost:3002/api/cars/CL 61045 HTTP/1.1
 ### Used to get list of cars
 GET http://localhost:3002/api/listcars HTTP/1.1
 
+
+### Used to update the car
+PUT http://localhost:3002/cars/CY 52435 HTTP/1.1
+Content-type: application/json
+
+ {
+        "color": "orange",
+        "make": "Toyota",
+        "model": "Hilux",
+        "reg_number": "CY 52435"
+      }
+
+
 ## CHOSE A FUNCTION TO WORK WITH:
 Most popular car model function, it should return most popular model.
 T
