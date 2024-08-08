@@ -218,7 +218,7 @@ app.delete('/api/cars/:reg_number', (req, res) => {
   }
 });
 
-app.get('api/listcars', (req, res) => {
+app.get('/api/listcars', (req, res) => {
   res.status(200).json(cars);
 });
 
