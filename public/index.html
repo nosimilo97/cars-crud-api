@@ -11,13 +11,101 @@
     <style>
       .container {
         margin-top: 3em;
-        border: 1px solid;
+        border: 1px solid #a9a9a9;
         border-radius: 1em;
+        padding: 1.5em;
+        margin-left: 2em;
+        margin-right: 2em;
+        background-color: #a9a9a9;
+      }
+
+      .list-cars{
+        padding: 1em;
+        border: 1px solid #f0f0f0;
+        border-radius: 1em;
+        margin-bottom: 1em;
+        text-align: center;
+        margin-left: 5em;
+        margin-right: 5em;
+        background-color: #f0f0f0;
+        font-size: larger;
+      }
+      /* }
+      span {
+        color: red;
+      }
+      */
+
+      .btn-popular{
+        padding: 1em;
+        margin-bottom: 1em;
+        font-size: larger;
+        margin-top: 1.5em;
+     border: #f0f0f0;
+        border-radius: 1em;
+      }
+
+      .delete {
+        color: white;
+        background-color: red;
+        border-radius: 1em;
+        border: red;
+        margin-top: 1em;
         padding: 1.5em;
       }
 
-      h1 {
+      .cars-l{
+color: black;
+text-transform: capitalize;
+      }
+      .PopularModel{
         text-align: center;
+       
+
+      }
+      .model{
+        font-size: larger;
+        color: white;
+      }
+      .fetch{
+        text-align: center;
+        padding: 1em;
+        font-size: larger;
+        border: #f0f0f0;
+        border-radius: 1em;
+        margin: 0 auto;
+        display: block;
+      }
+      form {
+        text-align: center;
+      
+      }
+      input {
+        padding: 0.5em;
+        background-color: #f0f0f0;
+        border: #f0f0f0;
+      }
+      .add-car{
+        padding: 0.5em;
+        background-color: rgba(0, 0, 255, 0.5);
+        margin-left: 0.5em;
+        font-size:medium;
+        color: white;
+        border: 1px rgba(0, 0, 255, 0.5);
+        border-radius: 0.3em;
+      }
+
+      .edit {
+        color: white;
+        background-color: rgba(0, 0, 255, 0.7);
+        border-radius: 1em;
+        border: blue;
+        padding: 1.5em;
+        margin-top: 1em;
+      }
+      h1, h2 {
+        text-align: center;
+        color:white ;
       }
     </style>
 </head>
@@ -30,24 +118,33 @@
             <input x-model="newCar.make" placeholder="Car Make" required>
             <input x-model="newCar.model" placeholder="Car Model" required>
             <input x-model="newCar.reg_number" placeholder="Car Registration Number" required>
-            <button type="submit">Add Car</button>
+            <button class="add-car" type="submit">Add Car</button>
           </form>
-      
+
           <h2>Car List</h2>
-        <button @click="fetchCars">Refresh List</button>
+        <button class="fetch" @click="fetchCars">Refresh List</button>
           <ul>
             <template x-for="car in cars" :key="car.reg_number">
-              <li>
-                <span x-text="`${car.color}: ${car.make} ${car.model} (${car.reg_number})`"></span>
-                <button @click="deleteCar(car.reg_number)">Delete</button>
-              </li>
+            <div class="list-cars">
+            <div class="cars-l">
+            <div >Color: <span x-text="`${car.color}`"></span></div>
+            <div >Make: <span x-text="`${car.make}`"></span></div>
+            <div> Model: <span x-text="`${car.model}`"></span></div>
+            <div>Reg Number: <span x-text="`${car.reg_number}`"></span></div>
+                </div>
+                <button class="edit" @click="editCar(car)">Edit</button>
+                <button  class="delete" @click="deleteCar(car.reg_number)">Delete</button>
+              </div>
             </template>
           </ul>
 
-          <button @click="getMostPopularModel">Get Most Popular Model</button>
-          <br>
-          <div x-show="mostPopularModel.model">
-            Most Popular Model: <span x-text="mostPopularModel.model"></span> 
+          <div class="PopularModel">
+            <button class="btn-popular" @click="getMostPopularModel">Get Most Popular Model</button>
+            <br>
+            <div  class="model" x-show="mostPopularModel.model">
+              Most Popular Model: <span x-text="mostPopularModel.model"></span> 
+            </div>
+
           </div>
     </div>
   </div>

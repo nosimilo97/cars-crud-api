@@ -7,18 +7,50 @@ document.addEventListener("alpine:init", () => {
             color: '',
             make: '',
             model: '',
+            isEditing: false,
             reg_number: ''
           },
           mostPopularModel: {},
           fetchCars() {
-            axios.get('http://localhost:3000/cars')
+            axios.get('http://localhost:3002/api/listcars')
                 .then(response => {
-                    this.cars = response.data;
+                    this.cars = response.data;  
+                    this.cars = [...this.cars];
                 })
                 .catch(error => {
                     this.message = 'Error fetching cars!';
                 });
-                this.cars = [...this.cars];
+              
+        },
+        saveCar() {
+          if (this.isEditing) {
+            // Update the existing car
+            axios.put(`http://localhost:3002/cars/${this.newCar.reg_number}`, this.newCar)
+              .then(response => {
+                // Update the car in the local state
+                const index = this.cars.findIndex(car => car.reg_number === this.newCar.reg_number);
+                this.cars[index] = response.data;
+                this.resetForm();
+              })
+              .catch(error => {
+                console.error('Error updating car:', error);
+              });
+          } else {
+            // Add a new car
+            axios.post('http://localhost:3002/cars', this.newCar)
+              .then(response => {
+                this.cars.push(response.data);
+                this.resetForm();
+              })
+              .catch(error => {
+                console.error('Error adding car:', error);
+              });
+          }
+        },
+
+        editCar(car) {
+          this.newCar = { ...car };
+          this.isEditing = true;
         },
           
           createCar() {

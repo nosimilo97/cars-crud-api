@@ -218,6 +218,21 @@ app.delete('/api/cars/:reg_number', (req, res) => {
   }
 });
 
+
+app.put('/cars/:reg_number', (req, res) => {
+  const reg_number = req.params.reg_number;
+  const updatedCar = req.body;
+  const index = cars.findIndex(car => car.reg_number === reg_number);
+
+  if (index !== -1) {
+      cars[index] = updatedCar;
+      res.status(200).json(updatedCar);
+  } else {
+      res.status(404).json({ message: "Car not found" });
+  }
+});
+
+
 app.get('/api/listcars', (req, res) => {
   res.status(200).json(cars);
 });
