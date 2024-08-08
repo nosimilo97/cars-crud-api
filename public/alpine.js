@@ -1,55 +1,38 @@
+    // import axios from "axios";  
 document.addEventListener("alpine:init", () => { 
     Alpine.data("MostpopularModel", () => {
         return {
-            cars: [],
-      newCar: { color: '', make: '', model: '',  reg_number: '' },
-      mostPopularModel: { model: '' },
-      
-      fetchCars() {
-        axios.get('http://localhost:3002/api/cars')
-          .then(response => {
-            this.cars = response.data;
-          })
-          .catch(error => {
-            console.error('Error fetching cars:', error);
-          });
-      },
+          cars: [],
+          newCar: {
+            color: '',
+            make: '',
+            model: '',
+            reg_number: ''
+          },
+          mostPopularModel: {},
+          
+          createCar() {
+            this.cars.push({ ...this.newCar });
+            this.newCar = { color: '', make: '', model: '', reg_number: '' };
+          },
+          
+          deleteCar(reg_number) {
+            this.cars = this.cars.filter(car => car.reg_number !== reg_number);
+          },
 
- createCar() { 
-        axios.post('http://localhost:3002/api/cars', this.newCar)
-          .then(response => {
-            // this.cars.push(response.data);
-            this.fetchCars();
-            this.newCar = { color: '', make: '', model: '', year: '' };
-          })
-          .catch(error => {
-            console.error('Error creating car:', error);
-          });
-      },
+          getMostPopularModel() {
+  if (this.cars.length === 0) {
+    this.mostPopularModel = {};
+    return;
+  }
+  const modelCount = this.cars.reduce((acc, car) => {
+    acc[car.model] = (acc[car.model] || 0) + 1;
+    return acc;
+  }, {});
+  const mostPopular = Object.entries(modelCount).reduce((a, b) => b[1] > a[1] ? b : a);
+  this.mostPopularModel = { model: mostPopular[0] };
+}
 
-      getMostPopularModel() {
-        axios.get('http://localhost:3002/api/cars')
-          .then(response => {
-            this.mostPopularModel = response.data;
-          })
-          .catch(error => {
-            console.error('Error fetching most popular model:', error);
-          });
-      },
-
-      deleteCar(reg_number) {
-        axios.delete(`http://localhost:3002/api/cars/${reg_number}`)
-            .then(() => {
-                this.fetchCars();
-            })
-            .catch(error => {
-                console.error('Error deleting car:', error);
-            });
-    },
-
-init() {
-        this.fetchCars();
-      }
         }
     });
 });

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
     <script src="alpine.js"></script>
     <title>widget of mostPopularModel</title>
     <style>
@@ -13,7 +14,6 @@
         border: 1px solid;
         border-radius: 1em;
         padding: 1.5em;
-        
       }
 
       h1 {
@@ -23,30 +23,65 @@
 </head>
 <body>
   <div class="container">
-  <h1>Most popular Car Model</h1>
+  <h1>Most Popular Car Model</h1>
     <div x-data="MostpopularModel">
         <form @submit.prevent="createCar">
             <input x-model="newCar.color" placeholder="Car color" required>
             <input x-model="newCar.make" placeholder="Car Make" required>
             <input x-model="newCar.model" placeholder="Car Model" required>
-            <input x-model="newCar. reg_number" placeholder="Car reg_number" required>
+            <input x-model="newCar.reg_number" placeholder="Car Registration Number" required>
             <button type="submit">Add Car</button>
           </form>
       
           <ul>
             <template x-for="car in cars" :key="car.reg_number">
-              <li x-text="`${car.color}: ${car.make} ${car.model} (${car. reg_number})`"></li>
+              <li>
+                <span x-text="`${car.color}: ${car.make} ${car.model} (${car.reg_number})`"></span>
+                <button @click="deleteCar(car.reg_number)">Delete</button>
+              </li>
             </template>
           </ul>
 
           <button @click="getMostPopularModel">Get Most Popular Model</button>
-    <br>
-    <div x-show="mostPopularModel.model">
-      Most Popular Model: <span x-text="mostPopularModel.model"></span> 
-    </div>
-    <br>
-    <button @click="deleteCar(car.reg_number)">Delete</button>
+          <br>
+          <div x-show="mostPopularModel.model">
+            Most Popular Model: <span x-text="mostPopularModel.model"></span> 
+          </div>
     </div>
   </div>
+  
+  <script>
+    function MostpopularModel() {
+      return {
+        cars: [],
+        newCar: {
+          color: '',
+          make: '',
+          model: '',
+          reg_number: ''
+        },
+        mostPopularModel: {},
+        
+        createCar() {
+          this.cars.push({ ...this.newCar });
+          this.newCar = { color: '', make: '', model: '', reg_number: '' };
+        },
+        
+        deleteCar(reg_number) {
+          this.cars = this.cars.filter(car => car.reg_number !== reg_number);
+        },
+        
+        getMostPopularModel() {
+          if (this.cars.length === 0) return;
+          const modelCount = this.cars.reduce((acc, car) => {
+            acc[car.model] = (acc[car.model] || 0) + 1;
+            return acc;
+          }, {});
+          const mostPopular = Object.entries(modelCount).reduce((a, b) => b[1] > a[1] ? b : a);
+          this.mostPopularModel = { model: mostPopular[0] };
+        }
+      }
+    }
+  </script>
 </body>
 </html>
