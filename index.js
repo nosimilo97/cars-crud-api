@@ -218,6 +218,10 @@ app.delete('/api/cars/:reg_number', (req, res) => {
   }
 });
 
+app.get('api/listcars', (req, res) => {
+  res.status(200).json(cars);
+});
+
 
       app.listen(3002, function () {
         console.log('Example app listening on port 3002!');

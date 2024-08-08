@@ -10,9 +10,20 @@ document.addEventListener("alpine:init", () => {
             reg_number: ''
           },
           mostPopularModel: {},
+          fetchCars() {
+            axios.get('http://localhost:3000/cars')
+                .then(response => {
+                    this.cars = response.data;
+                })
+                .catch(error => {
+                    this.message = 'Error fetching cars!';
+                });
+                this.cars = [...this.cars];
+        },
           
           createCar() {
             this.cars.push({ ...this.newCar });
+            this.fetchCars();
             this.newCar = { color: '', make: '', model: '', reg_number: '' };
           },
           

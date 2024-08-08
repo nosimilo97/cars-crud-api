@@ -19,4 +19,8 @@ Content-type: application/json
 DELETE http://localhost:3002/api/cars/CL 61045 HTTP/1.1
 
 
+###
+GET http://localhost:3002/api/listcars HTTP/1.1
+
+
   
