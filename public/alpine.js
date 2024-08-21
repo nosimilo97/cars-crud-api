@@ -12,7 +12,7 @@ document.addEventListener("alpine:init", () => {
           },
           mostPopularModel: {},
           fetchCars() {
-            axios.get('http://localhost:3002/api/listcars')
+            axios.get(`https://cars-crud-api.onrender.com/api/listcars`)
                 .then(response => {
                     this.cars = response.data;  
                     this.cars = [...this.cars];
@@ -25,7 +25,7 @@ document.addEventListener("alpine:init", () => {
         saveCar() {
           if (this.isEditing) {
             // Update the existing car
-            axios.put(`http://localhost:3002/cars/${this.newCar.reg_number}`, this.newCar)
+            axios.put(`https://cars-crud-api.onrender.com/cars/${this.newCar.reg_number}`, this.newCar)
               .then(response => {
                 // Update the car in the local state
                 const index = this.cars.findIndex(car => car.reg_number === this.newCar.reg_number);
@@ -37,7 +37,7 @@ document.addEventListener("alpine:init", () => {
               });
           } else {
             // Add a new car
-            axios.post('http://localhost:3002/cars', this.newCar)
+            axios.post(`https://cars-crud-api.onrender.com/cars`, this.newCar)
               .then(response => {
                 this.cars.push(response.data);
                 this.resetForm();
